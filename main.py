@@ -9,7 +9,7 @@ from collections import defaultdict
 
 TOKEN = os.getenv("TOKEN")
 DATA_FILE = "trash.json"
-ADMIN_IDS = [967075066]  # 🔐 ЗАМЕНИ на свой Telegram ID
+ADMIN_IDS = [967075066]  # 🔐 Замени на свой ID
 
 def is_admin(user_id):
     return user_id in ADMIN_IDS
@@ -42,10 +42,7 @@ def get_main_keyboard():
 async def start(message: Message):
     name = message.from_user.first_name
     user_ids[name] = message.from_user.id
-    await message.answer(
-        "Привет! Нажимай кнопки ниже:",
-        reply_markup=get_main_keyboard()
-    )
+    await message.answer("Привет! Нажимай кнопки ниже:", reply_markup=get_main_keyboard())
 
 @dp.message(lambda msg: msg.text == "🗑 Вынес мусор")
 async def handle_trash(message: Message):
@@ -73,8 +70,6 @@ async def stats(message: Message):
     for user, count in sorted(trash_counts.items(), key=lambda x: -x[1]):
         stats_text += f"• {user}: {count}\n"
     await message.answer(stats_text)
-
-# --- АДМИН КОМАНДЫ ---
 
 @dp.message(Command("reset"))
 async def reset_stats(message: Message):
